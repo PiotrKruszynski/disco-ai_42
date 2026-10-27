@@ -13,7 +13,7 @@ SEASONS = {
 }
 
 NOISE = 0.3
-SLICE = 48
+SLICES = 48
 SHIFT_HOURS = 9
 
 if len(sys.argv) != 2:
@@ -27,7 +27,7 @@ if season not in SEASONS:
     sys.exit(1)
 
 base, amplitude = SEASONS[season]
-i = 0 #polnoc
+i = 0 #midnight 00:00
 
 try:
     while True:
@@ -35,10 +35,11 @@ try:
         temperature = base + amplitude * math.sin(2 * math.pi * (hour - SHIFT_HOURS) / 24)
         temperature += random.uniform(-NOISE, NOISE)
         print(round(temperature, 2), flush=True)
-        i = (i + 1) % SLICE
+        i = (i + 1) % SLICES
         time.sleep(1)
+
 except KeyboardInterrupt:
     sys.exit(0)
-    
+
 except BrokenPipeError:
     sys.exit(0)
